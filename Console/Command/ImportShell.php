@@ -4,6 +4,11 @@
  *
  *	CSV files should be names <table name>.csv and stored in app/data
  *	First row should contain field names
+ *
+ * Copyright (c) Iain Mullan 2012 www.iainmullan.com
+ * @author Iain Mullan
+ * @created September 2012
+ *
  */
 class ImportShell extends AppShell {
 

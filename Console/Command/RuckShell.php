@@ -23,7 +23,7 @@
  *
  * 	> cake ruck config
  *
- * Copyright (c) Iain Mullan 2010 www.ebotunes.com
+ * Copyright (c) Iain Mullan 2010 www.iainmullan.com
  * @see http://code.google.com/p/ruckusing/
  * @author Iain Mullan
  * @created 13th January 2010
