@@ -13,16 +13,17 @@ A Console task for CakePHP to update all counterCache values. Useful during deve
 
 In theory could be adapted to suit any type of beforeSave logic.
 
-    cake util.counter
+    # cake util.counter
 
 ## ImportShell
 
 CakePHP Shell for importing CSV data
 
-CSV files should be names <table name>.csv and stored in app/data
+CSV files should be stored in `app/data/<table name>.csv`
+
 First row should contain field names
 
-    cake util.import users
+    # cake util.import users
     
 ... would load data from app/data/users.csv
 
@@ -33,13 +34,13 @@ A Console task wrapping around Ruckusing commands, for convenience. The name of 
 
 Examples:
 
-`cake ruck setup`
-`cake ruck version`
-`cake ruck generate`
-`cake ruck migrate <version number>`
+    # cake util.ruck setup
+    # cake util.ruck version
+    # cake util.ruck generate
+    # cake util.ruck migrate <version number>
 
 There is also a special `config` task which copies DB config details from your cake app into the ruckusing DB config
 
-`cake ruck config <data source name>`
+    # cake util.ruck config <data source name>
 
 
