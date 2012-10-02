@@ -15,6 +15,18 @@ In theory could be adapted to suit any type of beforeSave logic.
 
     cake util.counter
 
+## ImportShell
+
+CakePHP Shell for importing CSV data
+
+CSV files should be names <table name>.csv and stored in app/data
+First row should contain field names
+
+    cake util.import users
+    
+... would load data from app/data/users.csv
+
+
 ## RuckShell 
 
 A Console task wrapping around Ruckusing commands, for convenience. The name of the task is shortened to `ruck` for command line brevity!
