@@ -12,62 +12,79 @@ class CounterShell extends Shell {
 
 	function main() {
 
-		$models = App::objects('model');
+		if (isset($this->args[0])) {
 
-		foreach($models as $class) {
+			$class = $this->args[0];
+			$this->_model($class);
 
-			$do_update = false;
+		} else {
 
-			if ($class !== 'AppModel') {
+			$models = Configure::listObjects('model');
+			foreach($models as $class) {
+				$this->_model($class);
+			}
 
-				$this->out("Checking associations for $class...");
+		}
 
-				$this->{$class} = ClassRegistry::init($class);
+		//$this->sql();
+	}
 
-				foreach($this->{$class}->belongsTo as $modelName => $properties) {
 
-					// If there are no properties specified for this Association,
-					// counterCache is implicitly false
-					if (!is_numeric($modelName) && is_array($properties)) {
+	function _model($class) {
 
-						if (!empty($properties['counterCache'])) {
-							$this->out("\tcounterCache in $modelName");
+		$do_update = false;
 
-							// Figure out the name of the counter column
-							if (!is_string($properties['counterCache'])) {
-								$column_name = Inflector::underscore($class).'_count';
-							} else {
-								$column_name = $properties['counterCache'];
-							}
+		if ($class !== 'AppModel') {
 
-							if (!isset($this->{$modelName})) {
-								$this->{$modelName} = ClassRegistry::init($modelName);
-							}
+			$this->out("Checking associations for $class...");
 
-							$schema = $this->{$modelName}->getColumnTypes();
+			$this->{$class} = ClassRegistry::init($class);
 
-							// Check if the column has been created
-							if (!isset($schema[$column_name])) {
-								$this->out("\t\t$modelName.$column_name does not exist");
-							} else {
-								$this->out("\t\t$modelName.$column_name exists");
-								$do_update = true;
-							}
+			foreach($this->{$class}->belongsTo as $modelName => $properties) {
 
+				// If there are no properties specified for this Association,
+				// counterCache is implicitly false
+				if (!is_numeric($modelName) && is_array($properties)) {
+
+					if (!empty($properties['counterCache'])) {
+						$this->out("\tcounterCache in $modelName");
+
+						// Figure out the name of the counter column
+						if (!is_string($properties['counterCache'])) {
+							$column_name = Inflector::underscore($class).'_count';
+						} else {
+							$column_name = $properties['counterCache'];
+						}
+
+						if (!isset($this->{$modelName})) {
+							$this->{$modelName} = ClassRegistry::init($modelName);
+						}
+
+						$schema = $this->{$modelName}->getColumnTypes();
+
+						// Check if the column has been created
+						if (!isset($schema[$column_name])) {
+							$this->out("\t\t$modelName.$column_name does not exist");
+						} else {
+							$this->out("\t\t$modelName.$column_name exists");
+							$do_update = true;
 						}
 
 					}
 
 				}
 
-				// Note we only need to update once for each model, even if it has
-				// multiple counters, since the counts will be updated for all associations
-				if ($do_update) {
-					$this->out("\tSaving all ".Inflector::pluralize($class));
-					$records = $this->{$class}->find('all');
-					$this->{$class}->saveAll($records);
-				}
+			}
 
+			// Note we only need to update once for each model, even if it has
+			// multiple counters, since the counts will be updated for all associations
+			if ($do_update) {
+				$this->out("\tSaving all ".Inflector::pluralize($class));
+
+				// $records = $this->{$class}->find('all');
+				$records = $this->{$class}->find('all', array('limit' => 10));
+
+				$this->{$class}->saveAll($records);
 			}
 
 		}
