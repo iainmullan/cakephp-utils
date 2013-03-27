@@ -81,8 +81,7 @@ class CounterShell extends Shell {
 			if ($do_update) {
 				$this->out("\tSaving all ".Inflector::pluralize($class));
 
-				// $records = $this->{$class}->find('all');
-				$records = $this->{$class}->find('all', array('limit' => 10));
+				$records = $this->{$class}->find('all');
 
 				$this->{$class}->saveAll($records);
 			}
