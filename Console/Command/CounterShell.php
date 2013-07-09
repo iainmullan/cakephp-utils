@@ -19,7 +19,7 @@ class CounterShell extends Shell {
 
 		} else {
 
-			$models = Configure::listObjects('model');
+			$models = App::objects('model');
 			foreach($models as $class) {
 				$this->_model($class);
 			}
